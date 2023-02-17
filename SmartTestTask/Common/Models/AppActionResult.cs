@@ -1,6 +1,6 @@
 ﻿namespace SmartTestTask.Common.Models
 {
-    public class ActionResultBase
+    public class AppActionResult
     {
         public bool Success { get; set; }
         public int Id { get; set; }

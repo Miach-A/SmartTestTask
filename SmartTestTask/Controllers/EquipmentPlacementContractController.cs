@@ -1,5 +1,6 @@
 using cleanarch.WebUI.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using SmartTestTask.Common.Models;
 using SmartTestTask.CQRS.EquipmentPlacementContract.Commands.Create;
 
 namespace SmartTestTask.Controllers
@@ -11,14 +12,15 @@ namespace SmartTestTask.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostContract([FromBody] CreateEquipmentPlacementContractCommand command)
+        public async Task<ActionResult<AppActionResult>> PostContract([FromBody] CreateEquipmentPlacementContractCommand command)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            return Ok(await Mediator.Send(command));
+
+            return await Mediator.Send(command);
         }
     }
 }
