@@ -1,38 +1,24 @@
+using cleanarch.WebUI.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using SmartTestTask.CQRS.EquipmentPlacementContract.Commands.Create;
 
 namespace SmartTestTask.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class EquipmentPlacementContractController : ControllerBase
+    public class EquipmentPlacementContractController : ApiControllerBase
     {
-
-        private readonly ILogger<EquipmentPlacementContractController> _logger;
-
-        public EquipmentPlacementContractController(
-            ILogger<EquipmentPlacementContractController> logger
-            )
+        public EquipmentPlacementContractController()
         {
-            _logger = logger;
         }
 
-        //[HttpGet(Name = "GetWeatherForecast")]
-        //public IEnumerable<WeatherForecast> Get()
-        //{
-        //    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //    {
-        //        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-        //        TemperatureC = Random.Shared.Next(-20, 55),
-        //        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //    })
-        //    .ToArray();
-        //}
-
         [HttpPost]
-        public async Task<IActionResult> PostContract()
+        public async Task<IActionResult> PostContract([FromBody] CreateEquipmentPlacementContractCommand command)
         {
+            if (ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            return Ok();//new EquipmentPlacementContract().Ma
+            return Ok(await Mediator.Send(command));
         }
     }
 }
