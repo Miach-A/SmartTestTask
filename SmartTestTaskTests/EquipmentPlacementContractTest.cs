@@ -7,7 +7,7 @@ namespace SmartTestTaskTests
     public class EquipmentPlacementContractTest
     {
         [Fact]
-        public async Task Post()
+        public async Task CommandQueryHandlers()
         {
             var handlerPost = new CreateEquipmentPlacementContractCommandHandler(DbContextHelper.Context, AutoMaperHelper.Mapper);
             var handlerGet = new GetEquipmentPlacementContractQueryHandler(DbContextHelper.Context);
