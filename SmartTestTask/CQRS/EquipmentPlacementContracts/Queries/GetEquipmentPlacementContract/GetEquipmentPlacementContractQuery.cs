@@ -6,9 +6,6 @@ namespace SmartTestTask.CQRS.EquipmentPlacementContracts.Queries.GetEquipmentPla
 {
     public class GetEquipmentPlacementContractQuery : IRequest<IEnumerable<EquipmentPlacementContractDto>>
     {
-        public int ProductionPremisesId { get; set; }
-        public int TypeOfEquipmentId { get; set; }
-        public int Quantity { get; set; }
     }
 
     public class GetEquipmentPlacementContractQueryHandler : IRequestHandler<GetEquipmentPlacementContractQuery, IEnumerable<EquipmentPlacementContractDto>>
