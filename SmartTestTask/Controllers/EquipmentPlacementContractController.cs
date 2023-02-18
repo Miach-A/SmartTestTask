@@ -19,7 +19,6 @@ namespace SmartTestTask.Controllers
                 return BadRequest();
             }
 
-
             return await Mediator.Send(command);
         }
     }

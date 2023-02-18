@@ -10,6 +10,7 @@ namespace SmartTestTaskData.Configurations
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).HasMaxLength(128);
+            //builder.HasMany(x => x.Contracts).WithOne(x => x.ProductionPremises).HasForeignKey(x => x.ProductionPremisesId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

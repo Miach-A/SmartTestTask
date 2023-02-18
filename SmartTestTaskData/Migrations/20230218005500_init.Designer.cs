@@ -11,8 +11,8 @@ using SmartTestTaskData;
 namespace SmartTestTaskData.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230217150319_seed")]
-    partial class seed
+    [Migration("20230218005500_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -215,20 +215,30 @@ namespace SmartTestTaskData.Migrations
             modelBuilder.Entity("SmartTestTaskModel.EquipmentPlacementContract", b =>
                 {
                     b.HasOne("SmartTestTaskModel.ProductionPremises", "ProductionPremises")
-                        .WithMany()
+                        .WithMany("Contracts")
                         .HasForeignKey("ProductionPremisesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SmartTestTaskModel.TypeOfEquipment", "TypeOfEquipment")
-                        .WithMany()
+                        .WithMany("Contracts")
                         .HasForeignKey("TypeOfEquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ProductionPremises");
 
                     b.Navigation("TypeOfEquipment");
+                });
+
+            modelBuilder.Entity("SmartTestTaskModel.ProductionPremises", b =>
+                {
+                    b.Navigation("Contracts");
+                });
+
+            modelBuilder.Entity("SmartTestTaskModel.TypeOfEquipment", b =>
+                {
+                    b.Navigation("Contracts");
                 });
 #pragma warning restore 612, 618
         }

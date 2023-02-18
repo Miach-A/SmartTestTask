@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using SmartTestTask.Common.Models;
 using SmartTestTaskData;
 
@@ -26,8 +27,24 @@ namespace SmartTestTask.CQRS.EquipmentPlacementContract.Commands.Create
 
         public async Task<AppActionResult> Handle(CreateEquipmentPlacementContractCommand request, CancellationToken cancellationToken)
         {
-            // _context.ProductionPremises.Where(x => x.Id == request.ProductionPremisesId)
-            await Task.CompletedTask;
+            using var transaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
+
+            var needArea = _context.TypeOfEquipment.AsNoTracking().Where(x => x.Id == request.TypeOfEquipmentId).Select(x => x.Area * request.Quantity);
+            var productionPremises = await _context.ProductionPremises
+                .Where(x => x.Id == request.ProductionPremisesId)
+                .Include(x => x.Contracts).ThenInclude(x => x.TypeOfEquipment)
+                //.AsQueryable()
+                .Select(x => new
+                {
+                    Available = x.SpaceForEquipment,
+                    Use = x.Contracts.Sum(y => y.Quantity * y.TypeOfEquipment.Area),
+                    NeedArea = needArea.Sum()
+                }).FirstOrDefaultAsync(cancellationToken);
+            //.FirstOrDefaultAsync(x => x.Id == request.ProductionPremisesId);
+            if (productionPremises == null) return new AppActionResult() { Success = false, Errors = new List<string>() { "Production premises not found" } };
+
+
+
             return new AppActionResult() { Success = true, Id = 44 };
         }
     }
