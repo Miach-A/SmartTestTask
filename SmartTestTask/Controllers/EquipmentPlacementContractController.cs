@@ -9,9 +9,7 @@ namespace SmartTestTask.Controllers
 {
     public class EquipmentPlacementContractController : ApiControllerBase
     {
-        public EquipmentPlacementContractController(ISender mediator) : base(mediator)
-        {
-        }
+        public EquipmentPlacementContractController(ISender mediator) : base(mediator) { }
         [HttpGet]
         public async Task<IEnumerable<EquipmentPlacementContractDto>> Get()
         {

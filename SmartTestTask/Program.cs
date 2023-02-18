@@ -1,9 +1,13 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using SmartTestTask.Common.Mappings.Profiles;
 using SmartTestTaskData;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +33,64 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     opt.UseSqlServer(configuration.GetConnectionString("Sql"));
 });
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication("OAuth")
+    .AddJwtBearer("OAuth", config =>
+    {
+        byte[] secretBytes = Encoding.UTF8.GetBytes(builder.Configuration["Auth:SecretKey"] ?? "");
+        var key = new SymmetricSecurityKey(secretBytes);
+
+        config.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false,
+            ValidIssuer = builder.Configuration["Issuer"],
+            ValidAudience = builder.Configuration["Audience"],
+            IssuerSigningKey = key
+        };
+
+        config.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = (context) =>
+            {
+                var access_token = context.Request.Headers["access_token"];
+
+                if (!string.IsNullOrEmpty(access_token))
+                {
+                    context.Token = access_token;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+
+builder.Services.AddSwaggerGen(option =>
+{
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Insert token",
+        Name = "access_token",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+        new List<string>(){ }
+        }
+    });
+});
 
 var app = builder.Build();
 
