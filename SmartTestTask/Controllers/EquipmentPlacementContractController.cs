@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SmartTestTask.Common.Models;
 using SmartTestTask.CQRS.EquipmentPlacementContracts.Commands.Create;
+using SmartTestTask.CQRS.EquipmentPlacementContracts.Queries.GetEquipmentPlacementContract;
 
 namespace SmartTestTask.Controllers
 {
@@ -11,9 +12,14 @@ namespace SmartTestTask.Controllers
         public EquipmentPlacementContractController(ISender mediator) : base(mediator)
         {
         }
+        [HttpGet]
+        public async Task<IEnumerable<EquipmentPlacementContractDto>> Get()
+        {
+            return await Mediator.Send(new GetEquipmentPlacementContractQuery());
+        }
 
         [HttpPost]
-        public async Task<ActionResult<AppActionResult>> PostContract([FromBody] CreateEquipmentPlacementContractCommand command)
+        public async Task<ActionResult<AppActionResult>> Post([FromBody] CreateEquipmentPlacementContractCommand command)
         {
             if (!ModelState.IsValid)
             {
