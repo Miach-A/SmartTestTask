@@ -40,7 +40,7 @@ namespace SmartTestTask.CQRS.Auth.Queries
             };
 
             var token = new JwtSecurityToken(
-                _configuration["Issuer"], _configuration["Audience"], claims, DateTime.Now, DateTime.Now.AddMonths(12), signingCredentials);
+                _configuration["Auth:Issuer"], _configuration["Auth:Audience"], claims, DateTime.Now, DateTime.Now.AddMonths(12), signingCredentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

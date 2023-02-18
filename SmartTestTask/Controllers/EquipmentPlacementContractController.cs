@@ -1,5 +1,6 @@
 using cleanarch.WebUI.Controllers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartTestTask.Common.Models;
 using SmartTestTask.CQRS.EquipmentPlacementContracts.Commands.Create;
@@ -7,6 +8,7 @@ using SmartTestTask.CQRS.EquipmentPlacementContracts.Queries.GetEquipmentPlaceme
 
 namespace SmartTestTask.Controllers
 {
+    [Authorize]
     public class EquipmentPlacementContractController : ApiControllerBase
     {
         public EquipmentPlacementContractController(ISender mediator) : base(mediator) { }

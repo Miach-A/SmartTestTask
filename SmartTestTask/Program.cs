@@ -43,8 +43,8 @@ builder.Services.AddAuthentication("OAuth")
         config.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = false,
-            ValidIssuer = builder.Configuration["Issuer"],
-            ValidAudience = builder.Configuration["Audience"],
+            ValidIssuer = builder.Configuration["Auth:Issuer"],
+            ValidAudience = builder.Configuration["Auth:Audience"],
             IssuerSigningKey = key
         };
 
@@ -52,7 +52,7 @@ builder.Services.AddAuthentication("OAuth")
         {
             OnMessageReceived = (context) =>
             {
-                var access_token = context.Request.Headers["access_token"];
+                var access_token = context.Request.Query["access_token"];
 
                 if (!string.IsNullOrEmpty(access_token))
                 {
@@ -102,6 +102,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
