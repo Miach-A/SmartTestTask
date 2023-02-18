@@ -38,23 +38,30 @@ namespace SmartTestTask.CQRS.EquipmentPlacementContracts.Commands.Create
                         .Join(requestedEquipment,
                         premises => true,
                         needArea => true,
-                        (premises, requestedEquipment) => premises.SpaceForEquipment
-                            - premises.Contracts.Sum(x => x.Quantity * x.TypeOfEquipment.Area)
-                            - requestedEquipment.Area * request.Quantity)
-                    .FirstOrDefaultAsync(cancellationToken);
+                        (premises, requestedEquipment) => new
+                        {
+                            SpaceForEquipment = premises.SpaceForEquipment,
+                            Uses = premises.Contracts.Sum(x => x.Quantity * x.TypeOfEquipment.Area),
+                            Request = requestedEquipment.Area * request.Quantity
+                        })
+                .FirstOrDefaultAsync(cancellationToken);
 
-                if (balanceAfterReserve < 0)
+                if (balanceAfterReserve == null) return new AppActionResult(false) { Errors = new List<string>() { "Wrong Id" } };
+
+                if (balanceAfterReserve.SpaceForEquipment - balanceAfterReserve.Uses - balanceAfterReserve.Request < 0)
                 {
                     return new AppActionResult(false) { Errors = new List<string>() { "Not enough area" } };
                 }
 
                 var newContract = _mapper.Map<EquipmentPlacementContract>(request);
                 await _context.EquipmentPlacementContract.AddAsync(newContract);
+
                 if (await _context.SaveChangesAsync() == 0)
                 {
                     return new AppActionResult(false) { AutoRepeatPossible = true, Errors = new List<string>() { "Save error. Try later." } };
                 }
 
+                transaction.Commit();
                 return new AppActionCreateResult(true, newContract.Id);
             };
 
