@@ -1,13 +1,14 @@
 using cleanarch.WebUI.Controllers;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SmartTestTask.Common.Models;
-using SmartTestTask.CQRS.EquipmentPlacementContract.Commands.Create;
+using SmartTestTask.CQRS.EquipmentPlacementContracts.Commands.Create;
 
 namespace SmartTestTask.Controllers
 {
     public class EquipmentPlacementContractController : ApiControllerBase
     {
-        public EquipmentPlacementContractController()
+        public EquipmentPlacementContractController(ISender mediator) : base(mediator)
         {
         }
 

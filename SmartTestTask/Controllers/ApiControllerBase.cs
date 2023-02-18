@@ -9,6 +9,11 @@ namespace cleanarch.WebUI.Controllers;
 public abstract class ApiControllerBase : ControllerBase
 {
     private ISender _mediator = null!;
+    public ApiControllerBase(ISender mediator)
+    {
+        _mediator = mediator;
+    }
 
-    protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
+    protected ISender Mediator => _mediator;
+    //protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
 }

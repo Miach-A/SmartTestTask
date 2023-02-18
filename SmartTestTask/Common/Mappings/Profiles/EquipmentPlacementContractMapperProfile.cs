@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using SmartTestTask.CQRS.EquipmentPlacementContracts.Commands.Create;
+using SmartTestTaskModel;
 
 namespace SmartTestTask.Common.Mappings.Profiles
 {
@@ -6,7 +8,7 @@ namespace SmartTestTask.Common.Mappings.Profiles
     {
         public EquipmentPlacementContractMapperProfile()
         {
-            //CreateMap<EquipmentPlacementContract, EquipmentPlacementContractDTO>();
+            CreateMap<CreateEquipmentPlacementContractCommand, EquipmentPlacementContract>();
         }
     }
 }

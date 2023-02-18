@@ -2,8 +2,13 @@
 {
     public class AppActionResult
     {
+        public AppActionResult(bool success)
+        {
+            Success = success;
+        }
         public bool Success { get; set; }
-        public int Id { get; set; }
-        public IEnumerable<string> Errors { get; set; } = new List<String>();
+        public bool AutoRepeatPossible { get; set; } = false;
+        public IEnumerable<string> Errors { get; set; } = new List<string>();
+
     }
 }
