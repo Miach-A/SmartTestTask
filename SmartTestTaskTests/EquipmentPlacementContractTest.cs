@@ -9,8 +9,6 @@ namespace SmartTestTaskTests
         [Fact]
         public async Task Post()
         {
-            var context = DbContextHelper.Context;
-
             var handlerPost = new CreateEquipmentPlacementContractCommandHandler(DbContextHelper.Context, AutoMaperHelper.Mapper);
             var handlerGet = new GetEquipmentPlacementContractQueryHandler(DbContextHelper.Context);
             CancellationTokenSource source = new CancellationTokenSource();
@@ -25,7 +23,7 @@ namespace SmartTestTaskTests
 
             Assert.NotEqual(resGetBeforeInsert.Count(), resGetAfterInsert.Count());
             Assert.True(resSuccess.Success, "Dont creare instance");
-            Assert.False(resRejectNotEnoughArea.Success, "Create contract when note enought area");
+            Assert.False(resRejectNotEnoughArea.Success, "Create contract when not enought area");
             Assert.False(resRejectWrongId1.Success, "Dont reject with wrong PremisesId");
             Assert.False(resRejectWrongId2.Success, "Dont reject with wrong TypeOfEquipmentId");
         }
