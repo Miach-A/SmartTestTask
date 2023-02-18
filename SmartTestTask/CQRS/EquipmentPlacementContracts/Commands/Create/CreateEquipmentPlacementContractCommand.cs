@@ -54,7 +54,7 @@ namespace SmartTestTask.CQRS.EquipmentPlacementContracts.Commands.Create
                 }
 
                 var newContract = _mapper.Map<EquipmentPlacementContract>(request);
-                await _context.EquipmentPlacementContract.AddAsync(newContract);
+                await _context.EquipmentPlacementContract.AddAsync(newContract, cancellationToken);
 
                 if (await _context.SaveChangesAsync() == 0)
                 {
