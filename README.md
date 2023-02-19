@@ -18,4 +18,8 @@ Example of filling user secrets:
 }
 ```
 
-liquid access token by the specified secret key (M6jFa47MTkvugUr47sIdMJDiQK4H4g0W) in the user's secrets - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTYxYWQ3Yi05NTkwLTRlYjgtODIxYy1jMGJmMmZkMWVhMjAiLCJ1bmlxdWVfbmFtZSI6IlRlc3QgVXNlciIsIm5iZiI6MTY3NjgwMzI2MiwiZXhwIjoxNzA4MzM5MjYyLCJpc3MiOiJTbWFydCIsImF1ZCI6Ik9wZW4ifQ.R70pTAMLrxxmH_w-feoyDRiwczLZUh9mzofdT6twjak
+Liquid access token by the specified secret key (M6jFa47MTkvugUr47sIdMJDiQK4H4g0W) in the user's secrets -
+
+```json
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTYxYWQ3Yi05NTkwLTRlYjgtODIxYy1jMGJmMmZkMWVhMjAiLCJ1bmlxdWVfbmFtZSI6IlRlc3QgVXNlciIsIm5iZiI6MTY3NjgwMzI2MiwiZXhwIjoxNzA4MzM5MjYyLCJpc3MiOiJTbWFydCIsImF1ZCI6Ik9wZW4ifQ.R70pTAMLrxxmH_w-feoyDRiwczLZUh9mzofdT6twjak
+```
