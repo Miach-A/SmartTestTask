@@ -44,7 +44,7 @@ namespace SmartTestTaskData.Migrations
 
                     b.HasIndex("TypeOfEquipmentId");
 
-                    b.ToTable("EquipmentPlacementContract");
+                    b.ToTable("EquipmentPlacementContract", (string)null);
 
                     b.HasData(
                         new
@@ -109,7 +109,7 @@ namespace SmartTestTaskData.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductionPremises");
+                    b.ToTable("ProductionPremises", (string)null);
 
                     b.HasData(
                         new
@@ -168,7 +168,7 @@ namespace SmartTestTaskData.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TypeOfEquipment");
+                    b.ToTable("TypeOfEquipment", (string)null);
 
                     b.HasData(
                         new
