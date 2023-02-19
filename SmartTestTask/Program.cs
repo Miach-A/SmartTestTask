@@ -16,7 +16,6 @@ var configuration = new ConfigurationBuilder()
  .AddUserSecrets(Assembly.GetExecutingAssembly())
  .Build();
 
-
 var maperConfig = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile<EquipmentPlacementContractMapperProfile>();
@@ -67,6 +66,9 @@ builder.Services.AddAuthentication("OAuth")
 
 builder.Services.AddSwaggerGen(option =>
 {
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    option.IncludeXmlComments(xmlPath);
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -94,14 +96,16 @@ builder.Services.AddSwaggerGen(option =>
 
 var app = builder.Build();
 
-
-// Configure the HTTP request pipeline.
+app.UseSwagger();
+app.UseSwaggerUI(config =>
+{
+    config.RoutePrefix = "";
+    config.SwaggerEndpoint("swagger/v1/swagger.json", "Smart test task API");
+});
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

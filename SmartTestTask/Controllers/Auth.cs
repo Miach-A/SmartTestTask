@@ -10,8 +10,12 @@ namespace SmartTestTask.Controllers
         public Auth(ISender mediator) : base(mediator)
         {
         }
-
+        /// <summary>
+        /// Get free token
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<string> Get()
         {
             return await Mediator.Send(new GetTokenQuery());
